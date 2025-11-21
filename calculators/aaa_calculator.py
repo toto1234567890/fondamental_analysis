@@ -189,14 +189,23 @@ class AAACalculator(ICalculator):
     #-----------------------------------------------------------------------------------------------
     def _set_grade(self, df_tickers_sector: pd.DataFrame) -> pd.DataFrame:
         """Calculate individual metric scores and grades"""
+        valuation_metrics = ['fwd_p_e', 'peg', 'p_s', 'p_b', 'p_fcf']
         # Calculate scores for numeric columns
         for column in df_tickers_sector.select_dtypes(include=['float']):
             if column not in ['_saved_timestamp', '_backup_timestamp']:
-                df_tickers_sector[f"score - {column.lower()}"] = self._scale_to_10(
-                    df_tickers_sector[column],
-                    df_tickers_sector[column].min(skipna=True),
-                    df_tickers_sector[column].max(skipna=True)
-                )
+                if column in valuation_metrics:
+                    # INVERT: Lower ratios = Higher scores
+                    df_tickers_sector[f"score - {column}"] = 10 - self._scale_to_10(
+                        df_tickers_sector[column],
+                        df_tickers_sector[column].min(skipna=True),
+                        df_tickers_sector[column].max(skipna=True)
+                    )
+                else:
+                    df_tickers_sector[f"score - {column.lower()}"] = self._scale_to_10(
+                        df_tickers_sector[column],
+                        df_tickers_sector[column].min(skipna=True),
+                        df_tickers_sector[column].max(skipna=True)
+                    )
         
         # Convert scores to grades
         for column in df_tickers_sector.columns:
@@ -229,7 +238,7 @@ class AAACalculator(ICalculator):
             df_tickers['score - p_fcf'] * pfcf_ponderation
         )
         
-        df_tickers["score - valuation"] = self._scale_to_10(
+        df_tickers["score - valuation"] = 10 - self._scale_to_10(
             df_tickers["score - valuation"], 
             df_tickers["score - valuation"].min(skipna=True), 
             df_tickers["score - valuation"].max(skipna=True)
