@@ -58,7 +58,7 @@ def get_config_logger(name, config=None):
             DB_PORT = 5432
             
             # File System
-            FS_DATA = "./data"      # For CSV/Arctic storage
+            FS_DATA = "./data"      # For file based storage / Arctic storage
             FS_TEMP = "./temp"      # For temporary files
             
             # ArcticDB
