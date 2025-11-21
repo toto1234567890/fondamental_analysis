@@ -174,28 +174,29 @@ for saver in savers:
 AAA calculation is a comprehensive financial rating system that evaluates stocks across multiple dimensions to generate letter grades (A+ through F).
 
 ### Calculation Process
-
-Raw Financial Data  
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;│  
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;▼  
+```python
+┌─────────────────┐ 
+Raw Financial Data 
+└─────────────────┘ 
+        │  
+        ▼  
 ┌─────────────────┐  
 │ Individual      │  
 │ Metric Scores   │ ← Scale metrics to 0-10  
 └─────────────────┘  
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;│  
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;▼  
+        │  
+        ▼  
 ┌─────────────────┐  
 │ Category        │  
 │ Grades          │ ← Convert scores to letter grades  
 └─────────────────┘  
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;│  
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;▼  
+        │  
+        ▼  
 ┌─────────────────┐  
 │ Overall         │  
 │ AAA Rating      │ ← Weighted combination  
 └─────────────────┘
-
-
+```
 
 ### Rating Categories
 
