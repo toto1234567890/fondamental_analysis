@@ -21,6 +21,54 @@ The framework follows a clean interface-based architecture with four main compon
 - **ArcticDB** - Time-series database for financial data
 - **Temp Files** - Temporary storage for scrapers and intermediate data
 
+## ⚙️ Configuration & Setup
+
+### Core Configuration Module
+
+The framework includes a robust configuration system that handles both development and production environments:
+
+```python
+#!/usr/bin/env python
+# coding:utf-8
+
+config = None
+logger = None
+
+def get_config_logger(name, config=None):
+    try: 
+        # relative import
+        from sys import path;path.extend("..")
+        from common.Helpers.helpers import init_logger
+
+        if config is None:
+            config=name
+        config, logger = init_logger(name=name, config=config)
+
+    except:
+        # Basic configuration fallback
+        import logging
+        logging.basicConfig(level=logging.DEBUG)
+        
+        class Config:
+            # Database
+            DB_SERVER = "localhost"
+            DB_NAME = "my_project"
+            DB_USER = "postgres"
+            DB_PASSWORD = "password"
+            DB_PORT = 5432
+            
+            # File System
+            FS_DATA = "./data"      # For CSV/Arctic storage
+            FS_TEMP = "./temp"      # For temporary files
+            
+            # ArcticDB
+            ARCTIC_HOST = "localhost"
+            ARCTIC_LIBRARY = "my_project_data"
+
+        logger = logging.getLogger()
+        config = Config()
+    return config, logger
+
 ## 🎯 Key Features
 
 ### 1. Interface-Based Design
@@ -59,6 +107,60 @@ class IScraper(ABC):
     def scrape_single_source(self, source_name: str, data_saver: IDataSaver) -> bool: ...
     def get_available_sources(self) -> List[str]: ...
     def health_check(self) -> bool: ...
+
+
+### 2. Factory Pattern
+Centralized component creation with runtime type selection:
+
+```python
+# Create any component type dynamically
+data_factory = DataFactory(config=config, logger=logger)
+
+# Choose implementation at runtime
+csv_source = data_factory.create_data_source("csv")
+postgres_saver = data_factory.create_data_saver("postgres") 
+arctic_backup = data_factory.create_data_backup("arctic")
+calculator = AAACalculator(config, logger)
+
+# Factory supports all component types
+source_types = data_factory.list_data_sources()      # ['csv', 'postgres', 'arctic', 'temp']
+saver_types = data_factory.list_data_savers()        # ['csv', 'postgres', 'arctic', 'temp']  
+backup_types = data_factory.list_data_backup()       # ['csv', 'postgres', 'arctic']
+
+
+### 3. Flexible Processing Pipeline
+Mix and match components to build custom workflows:
+
+# Example 1: Web scraping → Temp storage → Calculation → PostgreSQL
+scraper = FinvizScraper(config, logger)
+temp_saver = factory.create_data_saver("temp")
+calculator = AAACalculator(config, logger) 
+postgres_saver = factory.create_data_saver("postgres")
+postgres_backup = factory.create_data_backup("postgres")
+
+# Execute complete pipeline
+scraper.scrape_data(temp_saver)
+calculator.run_complete_calculation(
+    data_source=temp_source,
+    data_saver=postgres_saver, 
+    backup_service=postgres_backup
+)
+
+# Example 2: Direct CSV to ArcticDB processing  
+csv_source = factory.create_data_source("csv")
+arctic_saver = factory.create_data_saver("arctic")
+data = csv_source.get_data("input_data.csv")
+arctic_saver.save_data(data, "processed_data")
+
+# Example 3: Multi-storage backup strategy
+savers = [
+    factory.create_data_saver("csv"),
+    factory.create_data_saver("postgres"),
+    factory.create_data_saver("arctic")
+]
+for saver in savers:
+    saver.save_data(important_data, "backup_copy")
+
 
 
     
