@@ -108,7 +108,7 @@ class IScraper(ABC):
     def scrape_single_source(self, source_name: str, data_saver: IDataSaver) -> bool: ...
     def get_available_sources(self) -> List[str]: ...
     def health_check(self) -> bool: ...
-
+```
 
 ### 2. Factory Pattern
 Centralized component creation with runtime type selection:
@@ -127,7 +127,7 @@ calculator = AAACalculator(config, logger)
 source_types = data_factory.list_data_sources()      # ['csv', 'postgres', 'arctic', 'temp']
 saver_types = data_factory.list_data_savers()        # ['csv', 'postgres', 'arctic', 'temp']  
 backup_types = data_factory.list_data_backup()       # ['csv', 'postgres', 'arctic']
-
+```
 
 ### 3. Flexible Processing Pipeline
 Mix and match components to build custom workflows:
