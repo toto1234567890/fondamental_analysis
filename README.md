@@ -168,6 +168,69 @@ for saver in savers:
     saver.save_data(important_data, "backup_copy")
 ```
 
+## 📊 AAA Calculation Explained (some other will be added ASAP)
+
+### What is AAA Calculation?
+AAA calculation is a comprehensive financial rating system that evaluates stocks across multiple dimensions to generate letter grades (A+ through F).
+
+### Calculation Process
+
+Raw Financial Data
+        │
+        ▼
+┌─────────────────┐
+│ Individual      │
+│ Metric Scores   │ ← Scale metrics to 0-10
+└─────────────────┘
+        │
+        ▼
+┌─────────────────┐
+│ Category        │
+│ Grades          │ ← Convert scores to letter grades
+└─────────────────┘
+        │
+        ▼
+┌─────────────────┐
+│ Overall         │
+│ AAA Rating      │ ← Weighted combination
+└─────────────────┘
+
+
+
+### Rating Categories
+
+1. **Valuation** (30%)
+   - Forward P/E, PEG Ratio, P/S, P/B, P/FCF
+   - Lower multiples = Better score
+
+2. **Profitability** (25%)  
+   - Profit Margin, Operating Margin, Gross Margin, ROE, ROA
+   - Higher margins = Better score
+
+3. **Growth** (25%)
+   - EPS Growth (this year, next year, 5-year), Sales Growth
+   - Higher growth = Better score
+
+4. **Performance** (20%)
+   - Price Performance (month, quarter, year, YTD)
+   - Volatility (lower = better)
+   - Better performance = Better score
+
+### Grade Scale
+
+A+ ≥ 9.23 
+A ≥ 8.46
+A- ≥ 7.69
+B+ ≥ 6.92 
+B ≥ 6.15
+B- ≥ 5.38
+C+ ≥ 4.61 
+C ≥ 3.85
+C- ≥ 3.08
+D+ ≥ 2.31
+D ≥ 1.54
+D- ≥ 0.77
+F < 0.77
 
 
     
