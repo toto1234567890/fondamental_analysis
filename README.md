@@ -201,8 +201,8 @@ Raw Financial Data
 ```
 
 ### Rating Categories
-
-1. **Valuation** (30%)
+default : 
+1. **Valuation** (25%)
    - Forward P/E, PEG Ratio, P/S, P/B, P/FCF
    - Lower multiples = Better score
 
@@ -214,10 +214,66 @@ Raw Financial Data
    - EPS Growth (this year, next year, 5-year), Sales Growth
    - Higher growth = Better score
 
-4. **Performance** (20%)
+4. **Performance** (25%)
    - Price Performance (month, quarter, year, YTD)
    - Volatility (lower = better)
    - Better performance = Better score
+
+# but you can choose over different strategies : 
+```python
+STRATEGIES = {
+    'balanced': {
+        'name': 'Balanced',
+        'description': 'Equal emphasis across all categories',
+        'weights': {
+            'valuation': 0.25,
+            'profitability': 0.25,
+            'growth': 0.25,
+            'performance': 0.25
+        }
+    },
+    'value': {
+        'name': 'Value Investing', 
+        'description': 'Focus on valuation metrics',
+        'weights': {
+            'valuation': 0.50,
+            'profitability': 0.20,
+            'growth': 0.15,
+            'performance': 0.15
+        }
+    },
+    'growth': {
+        'name': 'Growth Investing',
+        'description': 'Focus on growth potential',
+        'weights': {
+            'valuation': 0.20,
+            'profitability': 0.25,
+            'growth': 0.40, 
+            'performance': 0.15
+        }
+    },
+    'quality': {
+        'name': 'Quality Investing',
+        'description': 'Focus on profitability and quality',
+        'weights': {
+            'valuation': 0.20,
+            'profitability': 0.45,
+            'growth': 0.20,
+            'performance': 0.15
+        }
+    },
+    'momentum': {
+        'name': 'Momentum Investing',
+        'description': 'Focus on recent performance',
+        'weights': {
+            'valuation': 0.15,
+            'profitability': 0.20,
+            'growth': 0.20,
+            'performance': 0.45
+        }
+    }
+}
+```
 
 ### Grade Scale
 
