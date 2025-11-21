@@ -92,7 +92,7 @@ class AAACalculator(ICalculator):
         errors = []
 
         calcualation_strategy = STRATEGIES.get(strategy, "balanced")
-        self.ponderation = STRATEGIES.get(calcualation_strategy, "balanced").get('weights')
+        self.ponderation = calcualation_strategy.get('weights')
 
         if weighted_ratios is not None: 
             for ratio, ponderation in weighted_ratios.items():
@@ -286,7 +286,7 @@ class AAACalculator(ICalculator):
     #-----------------------------------------------------------------------------------------------
     def _make_aaa_calculation(self, df_tickers: pd.DataFrame) -> pd.DataFrame:
         """Perform complete AAA calculation"""
-        df_tickers = self._set_valuation_grade(df_tickerdf_tickers=df_tickers,
+        df_tickers = self._set_valuation_grade(df_tickers=df_tickers,
                                                fwd_pe_ponderation=self.ponderation.get('fwd_pe', 1),
                                                peg_ponderation=self.ponderation.get('peg', 1),
                                                ps_ponderation=self.ponderation.get('ps', 1),
