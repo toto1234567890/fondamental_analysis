@@ -25,7 +25,7 @@ The framework follows a clean interface-based architecture with four main compon
 
 ### Core Configuration Module
 
-The framework includes a robust configuration system that handles both development and production environments:
+The configuration system that handles both development and production environments:
 
 ```python
 #!/usr/bin/env python
